@@ -1,10 +1,11 @@
 "use client"
-import React, { useEffect, useReducer, useState} from "react"
+import React, { useEffect, useState} from "react"
 import CardList from "./component/cardList"
 import {CiSearch} from "react-icons/ci"
 import styled from "styled-components"
 import {store} from "./store"
 import { Provider } from "react-redux"
+import { Helmet } from "react-helmet";
 
 interface DatasOfSearchResult{
   "spider_name":string,
@@ -74,6 +75,9 @@ const Perception = () => {
   return(
           <Provider store={store}>
             <div>
+              <Helmet>
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+              </Helmet>
               <form action="" onSubmit={onSearch}>
                 <Input type="text" name="searchKeyword"/>              
                 <SearchButton type="submit"><SearchIcon/></SearchButton>      
