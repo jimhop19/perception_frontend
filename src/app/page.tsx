@@ -1,10 +1,11 @@
 "use client"
-import React, { useEffect, useReducer, useState} from "react"
+import React, { useEffect, useState} from "react"
 import CardList from "./component/cardList"
 import {CiSearch} from "react-icons/ci"
 import styled from "styled-components"
 import {store} from "./store"
 import { Provider } from "react-redux"
+
 
 interface DatasOfSearchResult{
   "spider_name":string,
@@ -46,7 +47,7 @@ const Perception = () => {
   useEffect(() => {   
     if(searchKeyword !== ""){
       mediaList.forEach((media) => {      
-        fetch(`http://52.64.119.167:9080/crawl.json?spider_name=spider_${media}&start_requests=true&crawl_args={"keyword":"${searchKeyword}"}`)
+        fetch(`https://perception.run/crawl.json?spider_name=spider_${media}&start_requests=true&crawl_args={"keyword":"${searchKeyword}"}`)
         .then((response) => {
           return response.json()
         }).then((result) => {
