@@ -25,7 +25,7 @@ const ButtonToScrollRight = styled(MdKeyboardArrowRight)`
   color:#D3D3D3;
   opacity:0.6;
   position:absolute;
-  left:97.5vw;
+  left:95.5vw;
   top:40vh;
   z-index:100000;
 `
