@@ -1,10 +1,8 @@
 "use client"
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import zIndexManage, { increment } from "../zIndexManage/zIndexManage";
-
-import styled from "styled-components";
-import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon } from "../style/card.style"
+import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText } from "../style/card.style"
 
 interface News {
     title: string;
@@ -157,12 +155,14 @@ const Card: React.FC<CardProps> = ({ data, index }) => {
                             newsArray
                                 .slice(1)
                                 .map((news:any,index:number) => (
-                                    <ExtendedTitle key={index} >
+                                    <ExtendedTitle key={index} >                                       
                                         <PushUp onClick={() =>pushUpToFirst(index+1)}/>
-                                        <CloseX onClick={() =>deleteNews(index+1)}/>
+                                        <CloseX onClick={() =>deleteNews(index+1)}/>                                        
                                         <Circle/>
-                                        <p>{news.time}</p>
-                                        {news.title}
+                                        <TimeLineText>
+                                            <p>{news.time}</p>
+                                            {news.title}
+                                        </TimeLineText>
                                     </ExtendedTitle>
                         ))}
                     </TimelineBlock>

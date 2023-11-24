@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import {CiSearch} from "react-icons/ci"
 const SearchComponent = styled.form`
+  width:90vw;
+  margin:0 5vw;
   display: flex;
   justify-content:center;
 `

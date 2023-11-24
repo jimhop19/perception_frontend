@@ -21,7 +21,7 @@ const CardContainer = styled.div<{$inputColor?: string;}>`
     border-radius:30px;
     height: fit-content;
     background-color: #fff;
-    position:relative;        
+    position:relative;         
 `
 const MainContent = styled.div`
     position: relative;
@@ -68,28 +68,31 @@ const TimelineBlock = styled.div`
     transform:translateX(7px);
     padding-left:10px;    
     margin-top:10px;
+    position:relative;        
 `
-const Circle = styled.span`
+const Circle = styled.div`    
     width: 10px;
     height: 10px;    
     border: 1px solid #b3b3b3;
     background-color:#b3b3b3;
-    border-radius: 50%;
+    border-radius: 5px;
     display: block;
     position: absolute;
     left:-17px;
     top:6.5px;
 `
-
+const TimeLineText = styled.div`
+    box-sizing:border-box;    
+`
 const PushUp = styled(LiaUploadSolid)`
     position:absolute;
-    left:200px;
+    left:190px;
     top:4px;
     color:#7a7a7a;    
 `
 const CloseX = styled(IoMdClose)`
     position:absolute;
-    left:220px;
+    left:210px;
     top:4px;
     color:red;    
 `
@@ -121,4 +124,4 @@ const HighLightWordStyle = styled.span`
     background-color:yellow;
 `
 
-export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon }
+export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText }

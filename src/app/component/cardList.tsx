@@ -16,7 +16,7 @@ const ButtonToScrollLeft = styled(MdKeyboardArrowLeft)`
   color:#D3D3D3;
   opacity:0.6;
   position:absolute;
-  left:2.5vw;
+  left:4vw;
   top:40vh;
   z-index:100000;
 `
@@ -25,22 +25,21 @@ const ButtonToScrollRight = styled(MdKeyboardArrowRight)`
   color:#D3D3D3;
   opacity:0.6;
   position:absolute;
-  left:95.5vw;
+  left:94vw;
   top:40vh;
   z-index:100000;
 `
 const CardListContainer = styled.div`
   display: flex;
   position: relative;
-  overflow:scroll;
-  margin:0vw 4vw;  
+  overflow: scroll;
+  margin:0 5vw;  
   width:90vw;
-  padding-left:20px;
   -ms-overflow-style: none; 
   scrollbar-width: none;
   &::-webkit-scrollbar{
     display:none;
-  }  
+  }
 `
 const ScrollArrow = styled.div<{$left:number}>`
   position:absolute;
@@ -53,7 +52,7 @@ const Spectrum = styled.div`
   height: 20px;
   width: 90vw;
   background-color:transparent;
-  margin:20px auto;
+  margin:20px 5vw;
   border-radius:20px;
   position: relative;
   overflow:scroll;
