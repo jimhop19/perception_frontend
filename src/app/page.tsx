@@ -1,57 +1,39 @@
 "use client"
-import React, { useEffect, useState} from "react"
+import React, { useEffect, useRef, useState} from "react"
 import CardList from "./component/cardList"
-import {CiSearch} from "react-icons/ci"
-import styled from "styled-components"
-import {store} from "./store"
+import { store } from "./store"
 import { Provider } from "react-redux"
+import { SearchComponent, Input, SearchButton, SearchIcon } from "./style/page.style"
+
 
 
 interface DatasOfSearchResult{
   "spider_name":string,
   "items":any[],
+  "mediaIndex":number,
 } 
 
-const mediaList = ["udn","ettoday","pts","cna","ltn"]
-const Input = styled.input`
-  border:none;
-  border-bottom:1px solid gray;
-  width:200px;
-  height: 30px;
-  font-size:20px;
-  padding: 10px 20px;
-  &:focus{
-    outline:none;
-  }
-`;
-const SearchButton = styled.button`    
-  background:none;  
-  border:none;
-  padding:0px;
-`
-const SearchIcon = styled(CiSearch)`
-  transform:scale(2.5) translate(5px,3px);
-  color:#6c6c6c;  
-`
-const CardListContainer = styled.div`
-  display: flex;
-  position: relative;
-  flex-wrap:wrap;
-`
+const mediaList = ["ltn","cna","pts","ettoday","udn"]
+
+
 
 const Perception = () => {  
   const [searchResultsArray,setSearchResultsArray] = useState<Array<DatasOfSearchResult>>([])
-  const [searchKeyword, setSearchKeyword] = useState<String>("")
-  
+  const [searchKeyword, setSearchKeyword] = useState<string>("")
 
+  const ref = useRef<any>(null)
+  
+  
   useEffect(() => {   
     if(searchKeyword !== ""){
       mediaList.forEach((media) => {      
         fetch(`https://perception.run/crawl.json?spider_name=spider_${media}&start_requests=true&crawl_args={"keyword":"${searchKeyword}"}`)
         .then((response) => {
           return response.json()
-        }).then((result) => {
+        }).then((result) => {          
           result.keyword = searchKeyword
+          result.media = media
+          result.mediaIndex = mediaList.indexOf(media)
           setSearchResultsArray(searchResultsArray => [...searchResultsArray, result])        
           console.log(result)        
         })    
@@ -65,24 +47,27 @@ const Perception = () => {
     const searchKeyword = formData.get("searchKeyword") as string | null;
 
     if (searchKeyword !== null) {
-      setSearchKeyword(searchKeyword);
+      if(searchResultsArray.length!=0){
+        setSearchResultsArray([])
+        setSearchKeyword(searchKeyword);
+      }else{
+        setSearchKeyword(searchKeyword);
+      }
     } else {
       return 
     }   
   }
-
   
+  if(ref.current != null){
+    
+  }
   return(
           <Provider store={store}>
-            <div>
-              <form action="" onSubmit={onSearch}>
+            <SearchComponent action="" onSubmit={onSearch}>
                 <Input type="text" name="searchKeyword"/>              
-                <SearchButton type="submit"><SearchIcon/></SearchButton>      
-              </form>
-              <CardListContainer>
-                <CardList searchResultsArray={searchResultsArray}/>
-              </CardListContainer>        
-            </div>        
+                <SearchButton type="submit"><SearchIcon/></SearchButton>
+            </SearchComponent>
+            <CardList searchResultsArray={searchResultsArray}/>
           </Provider>
   )
 

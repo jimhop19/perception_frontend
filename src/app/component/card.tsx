@@ -1,190 +1,179 @@
 "use client"
-import styled from "styled-components";
-import {RiArrowDropDownLine} from "react-icons/ri"
-import {IoIosArrowDropright} from "react-icons/io"
-import { useState } from "react";
-import Draggable from 'react-draggable';
+import { useEffect, useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
-import { increment } from "../zIndexManage/zIndexManage";
-import { DraggableEvent,DraggableEventHandler,DraggableData } from "react-draggable";
+import zIndexManage, { increment } from "../zIndexManage/zIndexManage";
+
+import styled from "styled-components";
+import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon } from "../style/card.style"
 
 interface News {
     title: string;
     photo: string;
     content:string;
     time:string;
+    link:string;
 }
 interface CardProps {
-    data?: {
+    data: {
         items: News[];
-        spider_name:string;       
-    };        
+        spider_name:string;             
+    };
+    index:number;
+}
+
+const mediaChineseName:any = {
+    spider_ltn:"自由時報",
+    spider_cna:"中央社",
+    spider_pts:"公視",
+    spider_ettoday:"ETtoday新聞雲",
+    spider_udn:"聯合報",
 }
 
 
-const Bind = styled.div<{$zIndex?: number;}>`
-    display: flex;
-    z-index:${props => props.$zIndex || 0};
-`
-const CardContainer = styled.div`
-    width: 300px;
-    padding: 25px 25px 10px;
-    margin:20px;
-    border:1px solid #6c6c6c;
-    border-radius:30px;
-    height: fit-content;
-    background-color: #fff;
-`
-const MainContent = styled.div`
-    position: relative;
-`
-const MediaName = styled.div`
-    font-weight:900;
-    margin-bottom:10px;
-`
-const ImageContainer = styled.div`    
-    height: 225px;
-    overflow:hidden;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin:20px 0px;
-    pointer-events:none;
-`
-const MainImage = styled.img`
-    height:225px;
-    min-height:225px;
-`
-const H1 = styled.h1`
-    font-size:25px;
-    font-weight: 500;    
-    margin:10px 0px;
-    line-height:30px;    
-`
-const TitleContainer = styled.div`
-    position: relative;
-`
-const DropDownArrow = styled(RiArrowDropDownLine)`    
-    transform:scale(2.5);    
-`
-const TimelineBlock = styled.div`
-    border-left:2px solid #b3b3b3;
-    transform:translateX(7px);
-    padding-left:10px;    
-    margin-top:10px;
-`
-const Circle = styled.span`
-    width: 10px;
-    height: 10px;    
-    border: 1px solid #b3b3b3;
-    background-color:#b3b3b3;
-    border-radius: 50%;
-    display: block;
-    position: absolute;
-    left:-17px;
-    top:6.5px;
-`
-const ExtendedTitle = styled.div`
-    line-height:25px;
-    margin:0px 0px 15px;
-    position: relative;    
-`
-const ExtendRightArrow = styled(IoIosArrowDropright)`
-    transform:scale(1);
-    position: absolute;
-    right: -20px;
-    top:50%;
-`
-const ContentBlock = styled.div`
-    width: 300px;
-    height: fit-content;
-    margin:20px 0px 0px -40px;
-    padding: 25px 25px 25px 45px;    
-    background-color: #fff;
-    border:1px solid #6c6c6c;
-    border-radius:30px;
-    z-index:-1;
-    position:absolute;
-    left:380px;
-`
-
-
-const Card: React.FC<CardProps> = ({ data }) => {
-    const [toggleTimeline, setToggleTimeline] = useState<boolean>(false);
-    const [toggleContent, setToggleContent] = useState<boolean>(false); 
-    const [zIndex, setZIndex] = useState<number>(0)  
+const Card: React.FC<CardProps> = ({ data, index }) => {
     const count = useAppSelector((state) => state.counter.value)
     const dispatch = useAppDispatch()
-  
-    if (!data) {      
-      return null; 
-    }
-  
-    const { spider_name, items } = data;
-
-    const eventLogger:DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {     
-        setZIndex(count)   
-        console.log(window.getComputedStyle(data.node).getPropertyValue("z-index"));
-        // console.log(count);
-      };
+    const [zIndex, setZIndex] = useState<number>(0)
+    const [newsArray,setNewsArray] = useState<any>([])
     
-    const handleDragStart :DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {        
-        dispatch(increment())
-      };
-    const moveForward = () => {
-        setZIndex(count)
+    const [toggleTimeline, setToggleTimeline] = useState<boolean>(false);
+    const [toggleContent, setToggleContent] = useState<boolean>(false);     
+    const [highlightedText, setHightlightedText] = useState<Array<string>>([]) 
+    
+    const { spider_name, items } = data;
+    const calculateCardColor = (index:number) =>{
+        let r = 0
+        let g = 0
+        let b = 0
+        if(items.length%2 === 0){
+            if(index < items.length/2){
+                r = 0 + (35-0)/(items.length/2-0.5)*index
+                g = 154 + (201-154)/(items.length/2-0.5)*index
+                b = 0 + (201-0)/(items.length/2-0.5)*index
+            }else{
+                r = 35 + (0-35)/(items.length/2-0.5)*(index-(items.length/2-0.5))
+                g = 201 + (0-201)/(items.length/2-0.5)*(index-(items.length/2-0.5))
+                b = 201 + (172-201)/(items.length/2-0.5)*(index-(items.length/2-0.5))
+            }
+        }else{
+            if(index === 0){
+                r = 0
+                g = 154
+                b = 0
+            }else if (index === items.length/2-0.5){
+                r = 35
+                g = 201
+                b = 201
+            }else if (index === items.length-1){
+                r = 0
+                g = 0
+                b = 172
+            }else if (index < items.length/2-0.5){
+                r = 0 + (35-0)/(items.length/2-0.5)*index
+                g = 154 + (201-154)/(items.length/2-0.5)*index
+                b = 0 + (201-0)/(items.length/2-0.5)*index
+            }else{
+                r = 35 + (0-35)/(items.length/2-0.5)*index/(items.length/2-0.5)
+                g = 201 + (0-201)/(items.length/2-0.5)*index/(items.length/2-0.5)
+                b = 201 + (172-201)/(items.length/2-0.5)*index/(items.length/2-0.5)
+            }
+        }
+        return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},0.7)`
     }
+    useEffect(() => {
+        setNewsArray(items)
+    },[items])
+    
+    // const getSelection = () => {
+    //     let selectedWord:any = window.getSelection()?.toString().trim()        
+    //     if (selectedWord != ""){
+    //         setHightlightedText([...highlightedText,selectedWord])
+    //     }        
+    // }
+    // const eventLogger:DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {     
+    //     setZIndex(count);
+    //     console.log(data.node.offsetLeft);
+    //     console.log(data.x)
+    //   };
+    
+    // const handleDragStart :DraggableEventHandler = (e: DraggableEvent, data: DraggableData) => {        
+    //     dispatch(increment())
+    //   };
+    // const moveForward = () => {
+    //     setZIndex(count)
+    // }
     const clickHandler = () => {
         dispatch(increment())
-        setZIndex(count)
-        console.log("click")        
+        setZIndex(count)        
+    }
+    const checkIfPhoto = (input:string) => {
+        if (input === null){
+            return false
+        }
+        return true
+    }
+    const pushUpToFirst = (index:number) => {        
+        let updatedItems = [...newsArray]        
+        const selectedNews = updatedItems[index]
+        updatedItems.splice(index,1)
+        updatedItems.unshift(selectedNews)
+        setNewsArray(updatedItems)        
+    }
+    const deleteNews = (index:number) => {
+        let updatedItems = [...newsArray]
+        updatedItems.splice(index,1)
+        setNewsArray(updatedItems)
     }
 
-    return (
-        <Draggable  onStart={handleDragStart} onDrag={moveForward} onStop={eventLogger} >
-            <Bind $zIndex={zIndex} onClick={clickHandler}>            
-                <CardContainer>
-                    <MediaName>{spider_name}</MediaName>
-                    <div>{items[0].time}</div>      
-                    {items.length > 0 && (
-                        <MainContent>
-                            <ImageContainer >
-                                <MainImage
-                                    src={items[0].photo} 
-                                    alt=""/>
-                                </ImageContainer>
-                            <TitleContainer>                            
-                                <H1>{items[0].title}</H1>
-                            </TitleContainer>
-                            <ExtendRightArrow onClick={
-                                () => {
-                                    clickHandler();
-                                    setToggleContent(!toggleContent)}}>
-
-                            </ExtendRightArrow>
-                        </MainContent>
-                    )}
+    return (        
+        <Bind $zIndex={zIndex}>                
+            {newsArray.length > 0 && (
+                <CardContainer $inputColor={calculateCardColor(index)}>
+                    <MediaName>{mediaChineseName[spider_name]}</MediaName>
+                    <div>{newsArray[0].time}</div>
+                    <LinkToNewTab>
+                        <a href={newsArray[0].link} target="_blank">
+                            <LinkIcon></LinkIcon>
+                        </a>
+                    </LinkToNewTab>                    
+                    <MainContent>
+                        <ImageContainer $hasPhoto ={checkIfPhoto(newsArray[0].photo)}>                                
+                            <MainImage
+                                src={newsArray[0].photo} 
+                                alt=""/>
+                        </ImageContainer>
+                        <TitleContainer>                            
+                            <H1>{newsArray[0].title}</H1>
+                        </TitleContainer>
+                        <ExtendRightArrow onClick={
+                            () => {
+                                clickHandler()
+                                setToggleContent(!toggleContent)}}>
+                        </ExtendRightArrow>
+                    </MainContent>                
                     <DropDownArrow onClick={() => setToggleTimeline(!toggleTimeline)} />
                     <TimelineBlock>
                         {toggleTimeline &&
-                            items
+                            newsArray
                                 .slice(1)
-                                .map((news) => (
-                                    <ExtendedTitle key={news.title}>
+                                .map((news:any,index:number) => (
+                                    <ExtendedTitle key={index} >
+                                        <PushUp onClick={() =>pushUpToFirst(index+1)}/>
+                                        <CloseX onClick={() =>deleteNews(index+1)}/>
+                                        <Circle/>
                                         <p>{news.time}</p>
                                         {news.title}
-                                        <Circle/>
                                     </ExtendedTitle>
                         ))}
                     </TimelineBlock>
                 </CardContainer>
-                {toggleContent&&(
-                    <ContentBlock>
-                        {items[0].content}
-                    </ContentBlock>
-                )}
-            </Bind>
-        </Draggable>
+            )}                 
+            {toggleContent&&(
+                <ContentBlock onMouseUp={getSelection}>
+                    {newsArray[0].content}             
+                </ContentBlock>
+            )}                 
+        </Bind>                            
     );
   };
   
