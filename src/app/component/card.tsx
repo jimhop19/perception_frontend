@@ -1,8 +1,8 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import zIndexManage, { increment } from "../zIndexManage/zIndexManage";
-import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, ExtendedTitle, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText } from "../style/card.style"
+import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText } from "../style/card.style"
 
 interface News {
     title: string;
@@ -17,6 +17,9 @@ interface CardProps {
         spider_name:string;             
     };
     index:number;
+    setDraggedIndex:any;
+    setDraggedOverIndex:any;
+    handleSort:any;
 }
 
 const mediaChineseName:any = {
@@ -28,15 +31,15 @@ const mediaChineseName:any = {
 }
 
 
-const Card: React.FC<CardProps> = ({ data, index }) => {
+const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOverIndex, handleSort }) => {
+
     const count = useAppSelector((state) => state.counter.value)
     const dispatch = useAppDispatch()
     const [zIndex, setZIndex] = useState<number>(0)
     const [newsArray,setNewsArray] = useState<any>([])
-    
-    const [toggleTimeline, setToggleTimeline] = useState<boolean>(false);
-    const [toggleContent, setToggleContent] = useState<boolean>(false);     
-    const [highlightedText, setHightlightedText] = useState<Array<string>>([]) 
+    const [toggleTimeline, setToggleTimeline] = useState<boolean>(false)
+    const [toggleContent, setToggleContent] = useState<boolean>(false)  
+    const [highlightedText, setHightlightedText] = useState<Array<string>>([])
     
     const { spider_name, items } = data;
     const calculateCardColor = (index:number) =>{
@@ -122,19 +125,33 @@ const Card: React.FC<CardProps> = ({ data, index }) => {
         updatedItems.splice(index,1)
         setNewsArray(updatedItems)
     }
+    const handleDragEnd = () => {
+        console.log("end")
+        handleSort()
+    }
 
     return (        
         <Bind $zIndex={zIndex}>                
             {newsArray.length > 0 && (
-                <CardContainer $inputColor={calculateCardColor(index)}>
-                    <MediaName>{mediaChineseName[spider_name]}</MediaName>
-                    <div>{newsArray[0].time}</div>
-                    <LinkToNewTab>
+                <CardContainer $inputColor={calculateCardColor(index)} 
+                    draggable
+                    onDragStart={() => {
+                        setDraggedIndex(index)                        
+                    }}                
+                    onDragEnter={() =>{                        
+                        setDraggedOverIndex(index)                                        
+                    }}                        
+                    onDragEnd={handleDragEnd}
+                    onDragOver={(e) => {e.preventDefault()}} 
+                >
+                    <LinkToNewTab $zIndex={zIndex+1}>
                         <a href={newsArray[0].link} target="_blank">
                             <LinkIcon></LinkIcon>
                         </a>
                     </LinkToNewTab>                    
                     <MainContent>
+                        <MediaName>{mediaChineseName[spider_name]}</MediaName>
+                        <div>{newsArray[0].time}</div>
                         <ImageContainer $hasPhoto ={checkIfPhoto(newsArray[0].photo)}>                                
                             <MainImage
                                 src={newsArray[0].photo} 
@@ -150,12 +167,12 @@ const Card: React.FC<CardProps> = ({ data, index }) => {
                         </ExtendRightArrow>
                     </MainContent>                
                     <DropDownArrow onClick={() => setToggleTimeline(!toggleTimeline)} />
-                    <TimelineBlock>
+                    <TimelineBlock >
                         {toggleTimeline &&
                             newsArray
                                 .slice(1)
                                 .map((news:any,index:number) => (
-                                    <ExtendedTitle key={index} >                                       
+                                    <TimeLineRow key={index} >                                       
                                         <PushUp onClick={() =>pushUpToFirst(index+1)}/>
                                         <CloseX onClick={() =>deleteNews(index+1)}/>                                        
                                         <Circle/>
@@ -163,13 +180,13 @@ const Card: React.FC<CardProps> = ({ data, index }) => {
                                             <p>{news.time}</p>
                                             {news.title}
                                         </TimeLineText>
-                                    </ExtendedTitle>
+                                    </TimeLineRow>
                         ))}
                     </TimelineBlock>
                 </CardContainer>
             )}                 
             {toggleContent&&(
-                <ContentBlock onMouseUp={getSelection}>
+                <ContentBlock onMouseUp={getSelection} $leftOrRight={index==newsArray.length-1} $inputColor={calculateCardColor(index)}>
                     {newsArray[0].content}             
                 </ContentBlock>
             )}                 

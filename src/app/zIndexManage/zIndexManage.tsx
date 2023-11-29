@@ -8,7 +8,7 @@ interface CounterState {
 
 // Define the initial state using that type
 const initialState: CounterState = {
-  value: 1,
+  value: 3,
 }
 
 export const counterSlice = createSlice({
