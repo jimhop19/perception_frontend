@@ -25,6 +25,10 @@ const CardContainer = styled.div<{$inputColor?:string;}>`
 `
 const MainContent = styled.div`
     position: relative;
+    cursor:move;
+    &:active{
+        cursor:grabbing;
+    }
     &:hover{
         cursor: grab;
     } 

@@ -34,7 +34,7 @@ const CardListContainer = styled.div<{$fetchingFinished:boolean}>`
   display: flex;
   position: relative;
   overflow: scroll;
-  margin:0 6vw;  
+  margin:0 5vw;  
   width:86vw;
   -ms-overflow-style: none; 
   scrollbar-width: none;
@@ -53,7 +53,7 @@ const ScrollArrow = styled.div<{$left:number}>`
 `
 const Spectrum = styled.div<{$fetchingFinished:boolean}>`
   height: 20px;
-  width: 90vw;
+  width: 86vw;  
   background-color:transparent;
   margin:${props => props.$fetchingFinished? "7vh 5vw 3vh":"50vh 5vw 3vh"};
   border-radius:20px;

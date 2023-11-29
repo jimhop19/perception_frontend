@@ -72,7 +72,7 @@ const InputForMenu = styled(InputPrototype)`
   text-align:left;
   padding:0vw 0.5vw;
   line-height:2vw;
-  letter-spacing:0.3vw;
+  letter-spacing:0.2vw;
   transform:translate(-0.5vw, -0.5vw);
   z-index:20000;
   background-color: #fff;

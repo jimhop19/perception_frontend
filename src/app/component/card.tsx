@@ -7,9 +7,11 @@ import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage,
 interface News {
     title: string;
     photo: string;
-    content:string;
+    content:Array<string>;
     time:string;
     link:string;
+    tag:Array<string>;
+
 }
 interface CardProps {
     data: {
@@ -187,7 +189,13 @@ const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOve
             )}                 
             {toggleContent&&(
                 <ContentBlock onMouseUp={getSelection} $leftOrRight={index==newsArray.length-1} $inputColor={calculateCardColor(index)}>
-                    {newsArray[0].content}             
+                    {newsArray[0].content}   
+                    {/* {newsArray[0].content.map((paragraph:string,index:number) => 
+                        <div key={index}>
+                            <div>{paragraph}</div>
+                            <br/>
+                        </div>
+                    )} */}
                 </ContentBlock>
             )}                 
         </Bind>                            

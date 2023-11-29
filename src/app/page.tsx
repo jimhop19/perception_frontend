@@ -27,9 +27,6 @@ const Perception = () => {
   const [count, setCount] = useState<number>(0);
   const [searchMenu, setSearchMenu] = useState<boolean>(false)
   
-  const ref = useRef<any>(null)
-  
-  
   useEffect(() => {   
     if(searchKeyword !== ""){
       mediaList.forEach((media) => {      
@@ -42,7 +39,7 @@ const Perception = () => {
           result.mediaIndex = mediaList.indexOf(media)
           setSearchResultsArray(searchResultsArray => [...searchResultsArray, result])        
           console.log(result)
-        })    
+        }) 
       })
     }
   },[searchKeyword])
@@ -51,13 +48,14 @@ const Perception = () => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget);
     const searchKeyword = formData.get("searchKeyword") as string | null;
+    console.log(startSearching)
 
     if (searchKeyword !== null) {
-      setStartSearching(true)
       if(searchResultsArray.length!=0){
         setSearchResultsArray([])
-        setSearchKeyword(searchKeyword);
+        setSearchKeyword(searchKeyword);        
       }else{
+        setStartSearching(true)
         setSearchKeyword(searchKeyword);
       }
     } else {
@@ -93,12 +91,15 @@ const Perception = () => {
                   <SearchButton type="submit"><SearchIcon/></SearchButton>
               </SearchComponent>
               <CardList searchResultsArray={searchResultsArray} mediaList={mediaList}/>
-            {startSearching &&
-              <SearchIconForMenu onClick={toggleSearchMenu} $searchMenu={searchMenu}/>
-            }
-            {startSearching && searchMenu &&              
-              <InputForMenu placeholder="重新搜尋"/>
-            }
+              <form action="" onSubmit={onSearch}>
+                {startSearching &&
+                  <SearchIconForMenu onClick={toggleSearchMenu} $searchMenu={searchMenu}/>
+                }
+                {startSearching && searchMenu &&              
+                  <InputForMenu type="text" name="searchKeyword" placeholder="重新搜尋"/>
+                }
+                <button type="submit" style={{display:"none"}}>submit</button>
+              </form>
               <LogoContainer $startSearching={startSearching}>
                 <Image 
                   src={perception_logo} 
@@ -109,7 +110,8 @@ const Perception = () => {
                     position:"absolute",
                     left:"-1vw",
                     top:"33vh",                    
-                  }}/>                
+                  }}
+                  priority={false}/>                
               </LogoContainer>
           </Provider>
   )
