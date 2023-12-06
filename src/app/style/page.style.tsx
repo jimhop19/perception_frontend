@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import {CiSearch} from "react-icons/ci"
+import { PiHighlighterCircleThin } from "react-icons/pi";
 
 const LoadingBlock = styled.div<{$startSearching:boolean;}>`
   display: ${props => props.$startSearching? "flex":"none"};
@@ -28,7 +29,7 @@ const DotDot = styled.div`
       33% {box-shadow: 20px 0 #cccccc, -20px 0 #a6a6a6;background: #a6a6a6}
       66% {box-shadow: 20px 0 #a6a6a6,-20px 0 #cccccc; background: #a6a6a6}
       100%{box-shadow: 20px 0 #a6a6a6,-20px 0 #cccccc; background: #cccccc }
-}
+  }
 `
 const SearchComponent = styled.form<{$startSearching:boolean;}>`
   width:90vw;
@@ -64,9 +65,9 @@ const Input = styled(InputPrototype)<{$startSearching:boolean;}>`
 `
 
 const InputForMenu = styled(InputPrototype)`
-  position:fixed;
-  top:90vh;
-  left:5vw;
+  position:absolute;
+  top:5vh;
+  left:80vw;
   padding:1vw;
   opacity:0.9;
   text-align:left;
@@ -74,7 +75,7 @@ const InputForMenu = styled(InputPrototype)`
   line-height:2vw;
   letter-spacing:0.2vw;
   transform:translate(-0.5vw, -0.5vw);
-  z-index:20000;
+  z-index:10000001;
   background-color: #fff;
 `
 const SearchButton = styled.button`    
@@ -91,12 +92,12 @@ const SearchIcon = styled(CiSearch)`
 `
 const SearchIconForMenu = styled(SearchIcon)<{$searchMenu:boolean}>`
   transform:scale(2);
-  position:fixed;
-  top:90vh;
-  left:2vw;
+  position:absolute;
+  top:5vh;
+  left:91vw;
   opacity:0.9;
-  z-index:20000;
-  color:${props => props.$searchMenu? "#6c6c6c" : "#D3D3D3"};
+  z-index:10000001;
+  color:${props => props.$searchMenu? "#6c6c6c" : "#8d8d8d"};
   &:hover{
     cursor:pointer;
   }
@@ -105,6 +106,14 @@ const LogoContainer = styled.div<{$startSearching:boolean;}>`
   display: ${props => props.$startSearching? "none":"block"};
   position:absolute;  
 `
+const HighlightIconForMenu = styled(PiHighlighterCircleThin)<{$searchMenu:boolean}>`
+  transform:scale(2);
+  z-index:20000;
+  color:${props => props.$searchMenu? "#6c6c6c" : "#D3D3D3"};
+  &:hover{
+    cursor:pointer;
+  }color:#D3D3D3;
+`
 
 
-export { SearchComponent, Input, SearchButton, SearchIcon, SearchIconForMenu, InputForMenu, DotDot, LoadingBlock, LoadingText, LogoContainer };
+export { SearchComponent, Input, SearchButton, SearchIcon, SearchIconForMenu, InputForMenu, DotDot, LoadingBlock, LoadingText, LogoContainer , HighlightIconForMenu};
