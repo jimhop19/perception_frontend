@@ -10,7 +10,7 @@ const ButtonToScrollLeft = styled(MdKeyboardArrowLeft)<{$fetchingFinished:boolea
   opacity:${props => props.$fetchingFinished? 0.6:0};
   position:absolute;
   left:6vw;
-  top:82vh;
+  top:92vh;
   z-index:100000;
   &:hover{
     cursor: pointer;
@@ -23,8 +23,8 @@ const ButtonToScrollRight = styled(MdKeyboardArrowRight)<{$fetchingFinished:bool
   color:#D3D3D3;
   opacity:${props => props.$fetchingFinished? 0.6:0};
   position:absolute;
-  left:91.8vw;
-  top:82vh;
+  left:94vw;
+  top:92vh;
   z-index:1;  
   &:hover{
     cursor: pointer;
@@ -34,7 +34,7 @@ const CardListContainer = styled.div<{$fetchingFinished:boolean}>`
   display: flex;
   position: relative;
   overflow: scroll;
-  margin:0 5vw;  
+  margin:0 7vw;  
   width:86vw;
   -ms-overflow-style: none; 
   scrollbar-width: none;
@@ -55,7 +55,7 @@ const Spectrum = styled.div<{$fetchingFinished:boolean}>`
   height: 20px;
   width: 86vw;  
   background-color:transparent;
-  margin:${props => props.$fetchingFinished? "7vh 5vw 3vh":"50vh 5vw 3vh"};
+  margin:${props => props.$fetchingFinished? "12vh 7vw 3vh":"50vh 7vw 3vh"};
   border-radius:20px;
   position: relative;
   overflow:scroll;

@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useAppSelector, useAppDispatch } from '../hooks/hooks'
 import zIndexManage, { increment } from "../zIndexManage/zIndexManage";
-import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText } from "../style/card.style"
+import { Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, ContentPreview, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, ContentTitleContainer, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText } from "../style/card.style"
 
 interface News {
     title: string;
@@ -19,9 +19,10 @@ interface CardProps {
         spider_name:string;             
     };
     index:number;
-    setDraggedIndex:any;
-    setDraggedOverIndex:any;
+    setDraggedIndex:React.Dispatch<React.SetStateAction<number>>;
+    setDraggedOverIndex:React.Dispatch<React.SetStateAction<number>>;
     handleSort:any;
+    calculateCardColor:string;
 }
 
 const mediaChineseName:any = {
@@ -33,56 +34,21 @@ const mediaChineseName:any = {
 }
 
 
-const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOverIndex, handleSort }) => {
+const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOverIndex, handleSort, calculateCardColor }) => {
 
     const count = useAppSelector((state) => state.counter.value)
     const dispatch = useAppDispatch()
     const [zIndex, setZIndex] = useState<number>(0)
     const [newsArray,setNewsArray] = useState<any>([])
     const [toggleTimeline, setToggleTimeline] = useState<boolean>(false)
-    const [toggleContent, setToggleContent] = useState<boolean>(false)  
+    const [toggleContent, setToggleContent] = useState<boolean>(false)
+    const [toggleContentIndex, setToggleContentIndex] = useState<number>(0)
+    const [toggleContentTop, setToggleContentTop] = useState<number>(0)
+    const [toggleMainContentPreview, setToggleMainContentPreview] = useState<boolean>(false)
     const [highlightedText, setHightlightedText] = useState<Array<string>>([])
     
     const { spider_name, items } = data;
-    const calculateCardColor = (index:number) =>{
-        let r = 0
-        let g = 0
-        let b = 0
-        if(items.length%2 === 0){
-            if(index < items.length/2){
-                r = 0 + (35-0)/(items.length/2-0.5)*index
-                g = 154 + (201-154)/(items.length/2-0.5)*index
-                b = 0 + (201-0)/(items.length/2-0.5)*index
-            }else{
-                r = 35 + (0-35)/(items.length/2-0.5)*(index-(items.length/2-0.5))
-                g = 201 + (0-201)/(items.length/2-0.5)*(index-(items.length/2-0.5))
-                b = 201 + (172-201)/(items.length/2-0.5)*(index-(items.length/2-0.5))
-            }
-        }else{
-            if(index === 0){
-                r = 0
-                g = 154
-                b = 0
-            }else if (index === items.length/2-0.5){
-                r = 35
-                g = 201
-                b = 201
-            }else if (index === items.length-1){
-                r = 0
-                g = 0
-                b = 172
-            }else if (index < items.length/2-0.5){
-                r = 0 + (35-0)/(items.length/2-0.5)*index
-                g = 154 + (201-154)/(items.length/2-0.5)*index
-                b = 0 + (201-0)/(items.length/2-0.5)*index
-            }else{
-                r = 35 + (0-35)/(items.length/2-0.5)*index/(items.length/2-0.5)
-                g = 201 + (0-201)/(items.length/2-0.5)*index/(items.length/2-0.5)
-                b = 201 + (172-201)/(items.length/2-0.5)*index/(items.length/2-0.5)
-            }
-        }
-        return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},0.7)`
-    }
+    
     useEffect(() => {
         setNewsArray(items)
     },[items])
@@ -127,24 +93,23 @@ const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOve
         updatedItems.splice(index,1)
         setNewsArray(updatedItems)
     }
-    const handleDragEnd = () => {
-        console.log("end")
-        handleSort()
+    const handleDragEnd = () => {          
+        handleSort()        
     }
 
     return (        
         <Bind $zIndex={zIndex}>                
             {newsArray.length > 0 && (
-                <CardContainer $inputColor={calculateCardColor(index)} 
+                <CardContainer $inputColor={calculateCardColor} 
                     draggable
                     onDragStart={() => {
-                        setDraggedIndex(index)                        
+                        setDraggedIndex(index)
                     }}                
                     onDragEnter={() =>{                        
                         setDraggedOverIndex(index)                                        
                     }}                        
                     onDragEnd={handleDragEnd}
-                    onDragOver={(e) => {e.preventDefault()}} 
+                    onDragOver={(e) => {e.preventDefault()}}                    
                 >
                     <LinkToNewTab $zIndex={zIndex+1}>
                         <a href={newsArray[0].link} target="_blank">
@@ -159,28 +124,57 @@ const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOve
                                 src={newsArray[0].photo} 
                                 alt=""/>
                         </ImageContainer>
-                        <TitleContainer>                            
-                            <H1>{newsArray[0].title}</H1>
+                        <TitleContainer                    
+                            $zIndex={zIndex+1}  
+                            onClick={() => {
+                                // clickHandler()
+                                // setToggleContent(!toggleContent)                                                                
+                            }}
+                            onMouseEnter={() => {
+                                setToggleMainContentPreview(true)
+                                // setToggleTimeline(false)                                
+                            }}
+                            onMouseLeave={() => {
+                                setToggleMainContentPreview(false)
+                            }}
+                        >
+                            <a href={newsArray[0].link} target="_blank">
+                                <H1>{newsArray[0].title}</H1>
+                            </a>   
                         </TitleContainer>
-                        <ExtendRightArrow onClick={
-                            () => {
-                                clickHandler()
-                                setToggleContent(!toggleContent)}}>
-                        </ExtendRightArrow>
+                        {toggleMainContentPreview &&                         
+                            <ContentPreview>{newsArray[0].content}</ContentPreview>
+                        }
+                        {/* <ExtendRightArrow></ExtendRightArrow> */}
                     </MainContent>                
                     <DropDownArrow onClick={() => setToggleTimeline(!toggleTimeline)} />
                     <TimelineBlock >
                         {toggleTimeline &&
                             newsArray
                                 .slice(1)
-                                .map((news:any,index:number) => (
-                                    <TimeLineRow key={index} >                                       
-                                        <PushUp onClick={() =>pushUpToFirst(index+1)}/>
-                                        <CloseX onClick={() =>deleteNews(index+1)}/>                                        
+                                .map((news:any,newsIndex:number) => (
+                                    <TimeLineRow key={newsIndex}>                                       
+                                        <PushUp onClick={() => pushUpToFirst(newsIndex+1)}/>
+                                        <CloseX onClick={() => deleteNews(newsIndex+1)}/>                                        
                                         <Circle/>
-                                        <TimeLineText>
+                                        <TimeLineText 
+                                            onMouseEnter={(e) => {     
+                                                let y = e.currentTarget.getBoundingClientRect().top
+                                                setToggleContentTop(y + window.scrollY - 150)
+                                                setToggleContentIndex(newsIndex+1)
+                                                clickHandler()
+                                                setToggleContent(true)
+                                            }}
+                                            onMouseLeave={() => {
+                                                setToggleContent(false)
+                                            }}
+                                        >
                                             <p>{news.time}</p>
-                                            {news.title}
+                                            <a href={news.link} target="_blank">
+                                                <ContentTitleContainer>
+                                                    {news.title}
+                                                </ContentTitleContainer>
+                                            </a>
                                         </TimeLineText>
                                     </TimeLineRow>
                         ))}
@@ -188,8 +182,8 @@ const Card: React.FC<CardProps> = ({ data, index, setDraggedIndex, setDraggedOve
                 </CardContainer>
             )}                 
             {toggleContent&&(
-                <ContentBlock onMouseUp={getSelection} $leftOrRight={index==newsArray.length-1} $inputColor={calculateCardColor(index)}>
-                    {newsArray[0].content}   
+                <ContentBlock onMouseUp={getSelection} $leftOrRight={index === newsArray.length-1} $inputColor={calculateCardColor} $toggleContentIndex={toggleContentIndex} $toggleContentTop={toggleContentTop}>
+                    {newsArray[toggleContentIndex].content }   
                     {/* {newsArray[0].content.map((paragraph:string,index:number) => 
                         <div key={index}>
                             <div>{paragraph}</div>

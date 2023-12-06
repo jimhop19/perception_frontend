@@ -40,8 +40,7 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
     }    
   },[fetchingFinished])
   
-  const handleSort = () => {
-    console.log("cardlist",draggedIndex,draggedOverIndex) 
+  const handleSort = () => {    
     let cloneSearchResultsArray = [...cards]
     let draggedCardIndex = draggedIndex
     let draggedOverCardIndex = draggedOverIndex
@@ -73,6 +72,45 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
       cardListContainerRef.current.scrollBy({left:scrollDistance})        
     }
   }
+  const calculateCardColor = (index:number) =>{        
+    let r = 0
+    let g = 0
+    let b = 0
+    if(cards.length%2 === 0){
+        if(index < cards.length/2){
+            r = 0 + (35-0)/(cards.length/2-0.5)*index
+            g = 154 + (201-154)/(cards.length/2-0.5)*index
+            b = 0 + (201-0)/(cards.length/2-0.5)*index
+        }else{
+            r = 35 + (0-35)/(cards.length/2-0.5)*(index-(cards.length/2-0.5))
+            g = 201 + (0-201)/(cards.length/2-0.5)*(index-(cards.length/2-0.5))
+            b = 201 + (172-201)/(cards.length/2-0.5)*(index-(cards.length/2-0.5))
+        }
+    }else{
+        if(index === 0){
+            r = 0
+            g = 154
+            b = 0
+        }else if (index === cards.length/2-0.5){
+            r = 35
+            g = 201
+            b = 201
+        }else if (index === cards.length-1){
+            r = 0
+            g = 0
+            b = 172
+        }else if (index < cards.length/2-0.5){
+            r = 0 + (35-0)/(cards.length/2-0.5)*index
+            g = 154 + (201-154)/(cards.length/2-0.5)*index
+            b = 0 + (201-0)/(cards.length/2-0.5)*index
+        }else{
+            r = 35 + (0-35)/(cards.length/2-0.5)*index/(cards.length/2-0.5)
+            g = 201 + (0-201)/(cards.length/2-0.5)*index/(cards.length/2-0.5)
+            b = 201 + (172-201)/(cards.length/2-0.5)*index/(cards.length/2-0.5)
+        }
+    }
+    return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},0.5)`
+}
   
   return (
       <div>        
@@ -94,7 +132,7 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
               .map((cards,index) => {
                 return (
                   <div key={index}>
-                    <Card key={cards.spider_name} data={cards} index={index} setDraggedIndex={setDraggedIndex} setDraggedOverIndex={setDraggedOverIndex} handleSort={handleSort}/>
+                    <Card key={cards.spider_name} data={cards} index={index} setDraggedIndex={setDraggedIndex} setDraggedOverIndex={setDraggedOverIndex} handleSort={handleSort} calculateCardColor={calculateCardColor(index)}/>
                   </div>
                   );
               })}

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { MdOpenInNew } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
-import { RiArrowDropDownLine } from "react-icons/ri"
+import { RiArrowDropDownLine } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import { LiaUploadSolid } from "react-icons/lia";
 
@@ -13,15 +13,16 @@ const Bind = styled.div<{$zIndex?:number;}>`
 `
 const CardContainer = styled.div<{$inputColor?:string;}>`
     width: 250px;
+    height: fit-content;    
     padding: 25px 25px 10px;
     margin:10px 10px;
-    border-width:1px;
+    border-width:1.7px;
     border-style: solid;
     border-color: ${props => props.$inputColor || "#6c6c6c"};
     border-radius:30px;
-    height: fit-content;    
+    box-shadow:4px 3px ${props => props.$inputColor || "#6c6c6c"};
+    background-color: #fff;    
     position:relative;
-    background-color: #fff;
 `
 const MainContent = styled.div`
     position: relative;
@@ -35,7 +36,7 @@ const MainContent = styled.div`
 `
 const MediaName = styled.div`
     font-weight:900;
-    margin-bottom:10px;
+    margin-bottom:10px;    
 `
 const LinkToNewTab = styled.div<{$zIndex?: number;}>`
     position:absolute;
@@ -71,8 +72,17 @@ const H1 = styled.h1`
     margin:10px 0px;
     line-height:30px;    
 `
-const TitleContainer = styled.div`
+const TitleContainer = styled.div<{$zIndex?: number;}>`
     position: relative;
+    z-index:${props => props.$zIndex || 2};
+    &:hover{
+        cursor: pointer;
+    }
+`
+const ContentPreview = styled.p`
+    margin-top:10px;
+    margin-bottom:15px;
+    text-indent:2em;
 `
 const DropDownArrow = styled(RiArrowDropDownLine)`    
     transform:scale(2.5);
@@ -134,22 +144,29 @@ const ExtendRightArrow = styled(MdKeyboardArrowRight)`
         cursor: pointer;
     }
 `
-const ContentBlock = styled.div<{$leftOrRight?:boolean,$inputColor?:string;}>`
+const ContentBlock = styled.div<{$leftOrRight?:boolean,$inputColor?:string;$toggleContentIndex:number;$toggleContentTop:number}>`
     width: 300px;
     height: fit-content;
     margin:10px 0px 0px -40px;
     padding: 25px 35px 25px 35px;    
     background-color: #fff;
-    border-width:1px;
+    box-shadow:3px 3px rgb(220,220,220);
+    border-width:2px;
     border-style: solid;
     border-color: ${props => props.$inputColor || "#6c6c6c"};
     border-radius:30px;
-    z-index:-1;
+    z-index:1;
     position:absolute;
-    left:${props => props.$leftOrRight? -290:330}px;
+    left:${props => props.$leftOrRight? -310:340}px;
+    top:${props => props.$toggleContentTop+10 || 315}px;
+`
+const ContentTitleContainer = styled.p`
+    &:hover{
+        cursor: pointer;
+    }
 `
 const HighLightWordStyle = styled.span`
     background-color:yellow;
 `
 
-export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText }
+export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, ContentPreview, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, ContentTitleContainer, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText }
