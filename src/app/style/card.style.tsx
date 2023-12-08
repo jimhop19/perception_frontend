@@ -23,6 +23,9 @@ const CardContainer = styled.div<{$inputColor?:string;}>`
     box-shadow:4px 3px ${props => props.$inputColor || "#6c6c6c"};
     background-color: #fff;    
     position:relative;
+    @media (max-width:368px) {
+        width:65vw;
+    }
 `
 const MainContent = styled.div`
     position: relative;
@@ -38,17 +41,21 @@ const MediaName = styled.div`
     font-weight:900;
     margin-bottom:10px;    
 `
-const LinkToNewTab = styled.div<{$zIndex?: number;}>`
+const LinkToNewTab = styled.div<{$zIndex?: number; $left?:string; $top?:string;}>`
     position:absolute;
-    left:260px;
-    top:25px;
+    left:${props => props.$left || "260px"};
+    top:${props => props.$top || "25px"};
     z-index:${props => props.$zIndex || 2};
     &:hover{
         cursor: pointer;
     }
+    @media (max-width:368px) {
+        left:70vw
+    }
 `
 const LinkIcon = styled(MdOpenInNew)`
     z-index:2;
+    color:#7a7a7a;
     &:hover{
         cursor: pointer;
     }
@@ -111,14 +118,23 @@ const Circle = styled.div`
 const TimeLineText = styled.div`
     box-sizing:border-box;    
 `
+const IconsContainer = styled.div`
+    position:relative;
+    @media (max-width:368px) {
+        transform:scale(1.6) translate(-35vw,7vh)
+    }
+`
 const PushUp = styled(LiaUploadSolid)`
     position:absolute;
-    left:190px;
+    left:180px;
     top:4px;
     color:#7a7a7a;
     &:hover{
         cursor: pointer;
-    }  
+    }
+    @media (max-width:368px) {
+        left:205px;
+    }   
 `
 const CloseX = styled(IoMdClose)`
     position:absolute;
@@ -127,7 +143,10 @@ const CloseX = styled(IoMdClose)`
     color:red;
     &:hover{
         cursor: pointer;
-    }  
+    }
+    @media (max-width:368px) {
+        left:245px;
+    }
 `
 const TimeLineRow = styled.div`
     line-height:25px;
@@ -144,7 +163,7 @@ const ExtendRightArrow = styled(MdKeyboardArrowRight)`
         cursor: pointer;
     }
 `
-const ContentBlock = styled.div<{$leftOrRight?:boolean,$inputColor?:string;$toggleContentIndex:number;$toggleContentTop:number}>`
+const ContentBlock = styled.div<{$leftOrRight?:boolean,$inputColor?:string;$toggleContentIndex:number;$toggleContentTop:number;$zIndex?: number;}>`
     width: 300px;
     height: fit-content;
     margin:10px 0px 0px -40px;
@@ -155,18 +174,29 @@ const ContentBlock = styled.div<{$leftOrRight?:boolean,$inputColor?:string;$togg
     border-style: solid;
     border-color: ${props => props.$inputColor || "#6c6c6c"};
     border-radius:30px;
-    z-index:1;
+    z-index:${props => props.$zIndex || 2};
     position:absolute;
     left:${props => props.$leftOrRight? -310:340}px;
     top:${props => props.$toggleContentTop+10 || 315}px;
+    @media (max-width:451px) {        
+        transform:${props => props.$leftOrRight? "translate(350px,-200px)" : "translate(-300px,-200px)"};
+        width:250px;
+    }
+    @media (max-width:368px) {
+        transform:${props => props.$leftOrRight? "translate(360px,-200px)" : "translate(-290px,-200px)"};
+        width:58vw;
+    }
 `
 const ContentTitleContainer = styled.p`
     &:hover{
         cursor: pointer;
+    }
+    @media (max-width:368px) {
+        padding-bottom:5vh;
     }
 `
 const HighLightWordStyle = styled.span`
     background-color:yellow;
 `
 
-export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, ContentPreview, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, ContentTitleContainer, HighLightWordStyle, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText }
+export{ Bind, CardContainer, MainContent, MediaName, ImageContainer, MainImage, H1, TitleContainer, ContentPreview, DropDownArrow, TimelineBlock, Circle, TimeLineRow, ExtendRightArrow, ContentBlock, ContentTitleContainer, HighLightWordStyle, IconsContainer, CloseX, PushUp, LinkToNewTab, LinkIcon, TimeLineText }

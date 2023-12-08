@@ -80,7 +80,8 @@ const PerceptionSearch = () => {
   
   const toggleSearchMenu = () => [
     setSearchMenu(!searchMenu)
-  ]  
+  ]
+  
   return(
           <Provider store={store}>            
             
@@ -92,7 +93,7 @@ const PerceptionSearch = () => {
                   {searchMenu &&
                     <InputForMenu type="text" name="searchKeyword" placeholder="重新搜尋"/>
                   }
-                  <button type="submit" style={{display:"none"}}>submit</button>
+                  <button type="submit" style={{display:"none"}}></button>
                 </form>
               </div>
             }              

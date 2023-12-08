@@ -14,7 +14,11 @@ const LoadingBlock = styled.div<{$startSearching:boolean;}>`
 const LoadingText = styled.h4`
   font-size:1.5vw;
   transform:translate(-3vw, -0.4vh);
-  color:#a6a6a6;  
+  color:#a6a6a6;
+  @media (max-width:451px) {
+    font-size:5vw;
+    transform:translate(-15vw, -0.4vh);
+  }
 `
 const DotDot = styled.div`
   width: 1vw;
@@ -22,7 +26,11 @@ const DotDot = styled.div`
   aspect-ratio: 1;
   border-radius: 50%;
   animation: l5 1s infinite linear alternate;
-  
+  @media (max-width:451px) {
+    width:3vw;
+    height:3vw;
+    transform:translate(-5vw, 0);
+  }
 
   @keyframes l5 {
       0%  {box-shadow: 20px 0 #cccccc, -20px 0 #a6a6a6;background: #cccccc }
@@ -61,22 +69,39 @@ const Input = styled(InputPrototype)<{$startSearching:boolean;}>`
   letter-spacing:0.2vw;
   &::placeholder{
     color:#D3D3D3;
+  }
+  @media(max-width:431px){
+    font-size:4vw;
+    width:${props => props.$startSearching? "0vw":"40vw"};
   }  
 `
 
 const InputForMenu = styled(InputPrototype)`
   position:absolute;
-  top:5vh;
+  top:4.7vh;
   left:80vw;
   padding:1vw;
   opacity:0.9;
   text-align:left;
   padding:0vw 0.5vw;
-  line-height:2vw;
+  line-height:28px;
   letter-spacing:0.2vw;
   transform:translate(-0.5vw, -0.5vw);
   z-index:10000001;
   background-color: #fff;
+  @media(max-width:1400px){
+    width:8vw;
+  }  
+  @media(max-width:431px){
+    left:64vw;
+    top:4.5vh;
+    width:15vw;
+    padding:1vw 3vw;
+    line-height:4vw;
+  }
+  @media(max-width:350px){
+    font-size:3vw;
+  }
 `
 const SearchButton = styled.button`    
   background:none;
@@ -85,10 +110,13 @@ const SearchButton = styled.button`
   &:hover{
     cursor: pointer;
   }
+  @media(max-width:431px){
+    transform:scale(0.5);
+  }
 `
 const SearchIcon = styled(CiSearch)`
   transform:scale(4) translate(0.2vw, 0.1vh);
-  color:#6c6c6c;  
+  color:#6c6c6c;
 `
 const SearchIconForMenu = styled(SearchIcon)<{$searchMenu:boolean}>`
   transform:scale(2);
@@ -100,6 +128,10 @@ const SearchIconForMenu = styled(SearchIcon)<{$searchMenu:boolean}>`
   color:${props => props.$searchMenu? "#6c6c6c" : "#8d8d8d"};
   &:hover{
     cursor:pointer;
+  }
+  @media(max-width:431px){
+    transform:scale(1.8)translate(0,-0.1vh);
+    left:87vw;
   }
 `
 const LogoContainer = styled.div<{$startSearching:boolean;}>`

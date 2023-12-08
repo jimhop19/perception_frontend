@@ -3,9 +3,9 @@ export default function Loading() {
       <div 
         style={{
           position:"absolute",
-          top:"50vh",
-          left:"50vw",
-          fontSize:"1.5vw",
+          top:"45vh",
+          left:"43vw",
+          fontSize:"4vw",
           fontWeight:"600",
           color:"#a6a6a6"
         }}
