@@ -14,7 +14,11 @@ const ButtonToScrollLeft = styled(MdKeyboardArrowLeft)<{$fetchingFinished:boolea
   z-index:100000;
   &:hover{
     cursor: pointer;
-  }  
+  }
+  @media (max-width:451px) {
+    width:2vw;
+    height:2vw;
+  }
 `
 const ButtonToScrollRight = styled(MdKeyboardArrowRight)<{$fetchingFinished:boolean}>`
   transform:scale(10);
@@ -28,6 +32,10 @@ const ButtonToScrollRight = styled(MdKeyboardArrowRight)<{$fetchingFinished:bool
   z-index:1;  
   &:hover{
     cursor: pointer;
+  }
+  @media (max-width:451px) {
+    width:2vw;
+    height:2vw;
   }
 `
 const CardListContainer = styled.div<{$fetchingFinished:boolean}>`
@@ -70,6 +78,9 @@ const Spectrum = styled.div<{$fetchingFinished:boolean}>`
       display:block;
     }
   }
+  @media (max-width:451px) {
+    margin:${props => props.$fetchingFinished? "10vh 7vw 2vh":"50vh 7vw 2vh"};
+  }
 `
 const SpectrumBackgournd = styled.div<{$width:number}>`
   background-image:linear-gradient(90deg,rgba(0,154,0,0.7),rgba(35,201,201,0.7),rgba(0,0,172,0.7));
@@ -79,5 +90,27 @@ const SpectrumBackgournd = styled.div<{$width:number}>`
   transition:0.5s;
   transition-timing-function: ease;
 `
+const MediaTagContainer = styled.div`
+  display:none;
+  margin:0 7vw 3vw;  
+  width:86vw;
+  flex-wrap:wrap;
+  @media (max-width:451px) {
+    display:flex;
+    justify-content:space-between;
+  }
+`
+const MediaTagForMobile = styled.div<{$backgroundColor:string}>` 
+  font-size:3vw;
+  border-radius:20px;
+  padding:2vw 2vw 2vw;
+  margin:0 4px;
+  text-align:center;
+  background-color:${props => props.$backgroundColor || "none"};
+  color:#fff;
+  &:hover{
+    cursor: pointer;
+  }
+`
 
-export { ButtonToScrollLeft, ButtonToScrollRight, CardListContainer, ScrollArrow, Spectrum, SpectrumBackgournd}
+export { ButtonToScrollLeft, ButtonToScrollRight, CardListContainer, ScrollArrow, Spectrum, SpectrumBackgournd,MediaTagContainer,  MediaTagForMobile}

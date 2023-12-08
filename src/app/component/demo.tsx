@@ -5,17 +5,6 @@ import { useState } from "react"
 import { LiaHandPointer } from "react-icons/lia";
 import { PiHandGrabbing } from "react-icons/pi";
 
-
-const Circle = styled.div`
-    width:60vw;
-    height:60vw;
-    border-radius:50%;  
-    background-color:#d3d3d3;
-    position:absolute;
-    top:15vh;
-    left:50vw;
-    z-index:-1;    
-`
 const move1_1 = keyframes`
     0% {transform:translate(0vw,0vw);}
     70% {transform:translate(12vw,-1vw);}
@@ -52,22 +41,36 @@ const CardMove2_2 = styled.div`
     animation:${move2_2} 2s ease-in-out 1 4s;
     animation-fill-mode: forwards;
 `
-const Cursor = styled.div`
-    width:50vw;
+const Cursor = styled.div`    
     position: absolute;
-    top:50vh;
+    top:28vw;
     left:62vw;
+    @media (max-width:451px) {
+        top:84.5vw;
+        width:30vw;
+    }
 `
 const cursorMove = keyframes`
-    0% {transform:translate(0vw,0vh)}
-    28% {transform:translate(12vw,0vh)}
-    60% {transform:translate(36vw,1vh)}
-    84% {transform:translate(24vw,1vh)}
-    100% {transform:translate(20vw,23vh)}
+    0% {transform:translate(0vw,0vw)}
+    28% {transform:translate(12vw,0vw)}
+    60% {transform:translate(36vw,1vw)}
+    84% {transform:translate(24vw,1vw)}
+    100% {transform:translate(20vw,10vw)}    
+`
+const cursorMoveMobile = keyframes`
+    0% {transform:translate(0vw,0vw)}
+    28% {transform:translate(12vw,0vw)}
+    60% {transform:translate(36vw,1vw)}
+    84% {transform:translate(24vw,1vw)}
+    100% {transform:translate(20vw,8.5vw)}    
 `
 const CursorMove1and2 = styled.div`
     animation:${cursorMove} 5s ease-in-out 1 1s;
     animation-fill-mode:forwards;
+    @media (max-width:451px) {
+        animation:${cursorMoveMobile} 5s ease-in-out 1 1s;
+        animation-fill-mode:forwards;
+    }
 `
 const toggleChange = keyframes`
     0%{}
@@ -143,23 +146,21 @@ const Demo = () => {
     }
 
     return(
-        <div style={{width:"100vw",height:"100vh",overflow:"hidden",position:"absolute",top:"0",zIndex:"-1"}}>            
-            <Circle></Circle>
-
+        <div style={{width:"100vw",height:"100vh",overflow:"hidden",position:"absolute",top:"0",zIndex:"-1"}}>
             <CardMove2_2>
-                <DemoCard $inputColor={handleSwitchColor(2,3,4)} $left="81vw" $index={4} $toggle={false}></DemoCard>
+                <DemoCard $inputColor={handleSwitchColor(2,3,4)} $left={81} $index={4} $toggle={false}></DemoCard>
             </CardMove2_2>
             <CardMove2_1 onAnimationEnd={() => setAnimation2Ended(true)}>
-                <DemoCard $inputColor={handleSwitchColor(2,4,3)} $left="93vw" $index={5} $toggle={toggleTimeLine}></DemoCard>
+                <DemoCard $inputColor={handleSwitchColor(2,4,3)} $left={93} $index={5} $toggle={toggleTimeLine}></DemoCard>
             </CardMove2_1>
 
             <CardMove1_2>
-                <DemoCard $inputColor={handleSwitchColor(1,2,1)} $left="69vw" $index={2} $toggle={false}></DemoCard>
+                <DemoCard $inputColor={handleSwitchColor(1,2,1)} $left={69} $index={2} $toggle={false}></DemoCard>
             </CardMove1_2>
             <CardMove1_1 onAnimationEnd={()=> setAnimation1Ended(true)}>
-                <DemoCard $inputColor={handleSwitchColor(1,1,2)} $left="57vw" $index={1} $toggle={false}></DemoCard>
+                <DemoCard $inputColor={handleSwitchColor(1,1,2)} $left={57} $index={1} $toggle={false}></DemoCard>
             </CardMove1_1>            
-            <DemoCard $inputColor={calculateCardColor(0)} $left="45vw" $index={3} $toggle={false}></DemoCard>
+            <DemoCard $inputColor={calculateCardColor(0)} $left={45} $index={3} $toggle={false}></DemoCard>
             <ToggleChange                
                 onAnimationStart={() => 
                     setToggleTimeLine(true)}

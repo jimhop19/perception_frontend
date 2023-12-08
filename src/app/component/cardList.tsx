@@ -1,13 +1,20 @@
 import Card from "./card"
 import { useState, useRef, useEffect } from "react";
 import { FaArrowsAltH } from "react-icons/fa";
-import { ButtonToScrollLeft, ButtonToScrollRight, CardListContainer, ScrollArrow, Spectrum, SpectrumBackgournd} from "../style/cardList.style"
+import { ButtonToScrollLeft, ButtonToScrollRight, CardListContainer, ScrollArrow, Spectrum, SpectrumBackgournd,MediaTagContainer,  MediaTagForMobile} from "../style/cardList.style"
 
 
 interface SearchResult {
   spider_name: string;
   items: any[];
   mediaIndex: number;  
+}
+const mediaChineseName:any = {
+  spider_ltn:"自由時報",
+  spider_cna:"中央社",
+  spider_pts:"公視",
+  spider_ettoday:"東森新聞雲",
+  spider_udn:"聯合報",
 }
 
 
@@ -16,7 +23,7 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
   const [draggedIndex, setDraggedIndex] = useState<number>(0)
   const [draggedOverIndex, setDraggedOverIndex] = useState<number>(0)
   const [fetchingFinished, setFetchingFinished] = useState<boolean>(false)
-
+  
   const cardListContainerRef = useRef<HTMLDivElement | null>(null)
   const spectrumRef = useRef<HTMLDivElement | null>(null)
   const amountOfCards = searchResultsArray.length
@@ -33,12 +40,14 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
     setCards(filteredArray)
   },[searchResultsArray])
 
-  useEffect(() => {
-    if(cardListContainerRef.current != null){  
+  const center = () => {
+    if(cardListContainerRef.current != null){
       const valueToCenter = (cardListContainerRef.current.scrollWidth-cardListContainerRef.current.offsetWidth)/2      
-      cardListContainerRef.current.scrollLeft = valueToCenter
+      cardListContainerRef.current.scrollLeft = valueToCenter     
     }    
-  },[fetchingFinished])
+  }
+
+  
   
   const handleSort = () => {    
     let cloneSearchResultsArray = [...cards]
@@ -120,6 +129,29 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
           </ScrollArrow>
           <SpectrumBackgournd $width={320*amountOfCards}/>
         </Spectrum>
+        <MediaTagContainer>
+          {cards.map((cards,index) => {
+            return(
+              <MediaTagForMobile 
+                key={cards.spider_name} 
+                $backgroundColor={calculateCardColor(index)} 
+                draggable 
+                onDragStart={() => {
+                  setDraggedIndex(index)
+                }}                
+                onDragEnter={() =>{                        
+                    setDraggedOverIndex(index)                                        
+                }}                        
+                onDragEnd={handleSort}
+                onDragOver={(e) => {
+                    e.preventDefault()
+                }}
+              >
+                {mediaChineseName[cards.spider_name]}
+              </MediaTagForMobile>
+            )
+          })}
+        </MediaTagContainer>
         {searchResultsArray.length > 0 &&
           <div>
             <ButtonToScrollLeft onClick={clickThenScrollLeft} $fetchingFinished={fetchingFinished}/>
@@ -129,11 +161,12 @@ const CardList = ({ searchResultsArray,mediaList }: { searchResultsArray: Search
         <CardListContainer ref={cardListContainerRef} onScroll={handleScroll} $fetchingFinished={fetchingFinished}>
             {cards
               .filter((e) => e.items.length > 0)          
-              .map((cards,index) => {
+              .map((card,index) => {
                 return (
                   <div key={index}>
-                    <Card key={cards.spider_name} data={cards} index={index} setDraggedIndex={setDraggedIndex} setDraggedOverIndex={setDraggedOverIndex} handleSort={handleSort} calculateCardColor={calculateCardColor(index)}/>
-                  </div>
+                    <Card key={card.spider_name} data={card} index={index} cardListLength={cards
+              .filter((e) => e.items.length > 0).length} setDraggedIndex={setDraggedIndex} setDraggedOverIndex={setDraggedOverIndex} handleSort={handleSort} calculateCardColor={calculateCardColor(index)} center={() => center()}/>
+                  </div>                  
                   );
               })}
         </CardListContainer>    

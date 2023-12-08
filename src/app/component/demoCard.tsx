@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { useRef } from "react";
 
-const Card = styled.div<{$inputColor:string,$left:string,$toggle:boolean}>`
+const Card = styled.div<{$inputColor:string,$left:number,$toggle:boolean}>`
     width:11vw;
-    height:${props => props.$toggle? "50vh":"35vh"};
+    height:${props => props.$toggle? "25vw":"18.5vw"};
     background-color:rgba(255,255,255,1);
     border-color: ${props => props.$inputColor};
     border-width:2px;
@@ -14,9 +14,14 @@ const Card = styled.div<{$inputColor:string,$left:string,$toggle:boolean}>`
     box-sizing:border-box;
     overflow:hidden;
     position:absolute;
-    top:40vh;
-    left:${props => props.$left};
+    top:21vw;
+    left:${props => props.$left}vw;
     z-index:1;
+    @media (max-width:451px) {        
+        height:${props => props.$toggle? "30vw":"20vw"};
+        top:75vw;
+        padding:1vw 0.6vw;      
+    }
 `
 const Skeleton = styled.div<{$width:string,$height:string,$color:string}>`
     width:${props => props.$width};
@@ -28,6 +33,9 @@ const DropDownArrow = styled(RiArrowDropDownLine)`
     transform:translate(-0.2vw,-0.5vh);
     position:absolute;
     color:rgba(200,200,200,1);
+    @media (max-width:451px) {
+        transform:translate(-1vw,-1vw);
+    }
 `
 const transferToColor = (index:number) => {
     const opacity = 0.15 * index + 0.3
@@ -35,7 +43,7 @@ const transferToColor = (index:number) => {
 }
 
 
-const DemoCard = ({$inputColor, $left, $index, $toggle}:{$inputColor:string, $left:string, $index:number, $toggle:boolean}) => {
+const DemoCard = ({$inputColor, $left, $index, $toggle}:{$inputColor:string, $left:number, $index:number, $toggle:boolean}) => {
     const ref = useRef<HTMLDivElement | null>(null)
 
     return (
@@ -48,8 +56,10 @@ const DemoCard = ({$inputColor, $left, $index, $toggle}:{$inputColor:string, $le
                 <Skeleton $width="8.8vw" $height="3vw" $color={transferToColor($index)}/>
                 {ref.current!=undefined && <DropDownArrow/>}
                 <br />
-                <Skeleton $width="8.8vw" $height="3vh" $color={transferToColor($index)}/>
-                <Skeleton $width="8.8vw" $height="3vh" $color={transferToColor($index)}/>
+                <Skeleton $width="8.8vw" $height="1.2vw" $color={transferToColor($index)}/>
+                <Skeleton $width="8.8vw" $height="1.2vw" $color={transferToColor($index)}/>
+                <Skeleton $width="8.8vw" $height="1.2vw" $color={transferToColor($index)}/>
+                <Skeleton $width="8.8vw" $height="1.2vw" $color={transferToColor($index)}/>
             </Card>        
     )
 }
