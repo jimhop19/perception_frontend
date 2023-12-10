@@ -55,9 +55,9 @@ const Card: React.FC<CardProps> = ({ data, index, cardListLength, setDraggedInde
         setNewsArray(items)
     },[items])
 
-    useEffect(() => {
-        center()
-    },[newsArray])
+    // useEffect(() => {
+    //     center()
+    // },[newsArray])
     
     // const getSelection = () => {
     //     let selectedWord:any = window.getSelection()?.toString().trim()        
