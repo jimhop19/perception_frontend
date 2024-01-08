@@ -5,4 +5,14 @@
 > <br>
 > 透過媒體發佈新聞的時間軸，更全面地掌握事件脈絡。
 > <br>
->> 展示網址：https://perception-sigma.vercel.app/ 
+>> 展示網址：https://perception-sigma.vercel.app/
+
+## 特點
++ 立場光譜
++ 時間軸
+
+## 技術
++ Typescript
++ React
++ NextJs
++ Vercel
