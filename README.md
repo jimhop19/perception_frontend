@@ -16,6 +16,6 @@
 + React
 + NextJs
 + Vercel
-> 爬蟲：
+> 爬蟲：https://github.com/jimhop19/perception_spider
 
 ## 架構
