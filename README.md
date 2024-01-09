@@ -29,3 +29,4 @@
 > 爬蟲：https://github.com/jimhop19/perception_spider
 
 ## 架構
+<img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/component%20tree.001.jpeg"/>
