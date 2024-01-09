@@ -11,10 +11,12 @@
 + 立場光譜
   > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/spectrum.png)
 + 時間軸
-  > <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/timeline.png" width="150"/>
+  > <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/timeline.png" width="250"/>
 + 內文預覽
-  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore.png)
-  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png)
+  > <div display="flex">
+      <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore.png" width="250"/>
+      <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png" width="250"/>  
+    <div/>  
 
 ## 技術
 + Typescript
