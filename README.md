@@ -13,9 +13,9 @@
 + 時間軸
   <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/timeline.png" width="250"/>
 + 內文預覽
-   <div style="display:flex; align:center">
+   <div style="display:flex">
       <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore.png" width="250"/>
-      <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png" width="250"/>  
+      <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png" width="350"/>  
     <div/>  
 
 ## 技術
