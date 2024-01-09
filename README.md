@@ -8,7 +8,7 @@
 >> 展示網址：https://perception-sigma.vercel.app/
 
 ## 特點
-+ *立場光譜*
++ **立場光譜**
   > 按照媒體立場排列，使用者也可以拖曳改變順序  
   <img src="https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/spectrum.png"/>  
 + *時間軸*
