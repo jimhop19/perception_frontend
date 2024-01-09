@@ -9,12 +9,12 @@
 
 ## 特點
 + 立場光譜
-+ > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/spectrum.png)
+  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/spectrum.png)
 + 時間軸
-  ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/timeline.png)
+  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/timeline.png)
 + 內文預覽
-  ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore.png)
-  ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png)
+  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore.png)
+  > ![](https://github.com/jimhop19/perception_frontend/blob/develop/public/perception%20description%20photo/readmore1.png)
 
 ## 技術
 + Typescript
